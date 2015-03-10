@@ -1,5 +1,6 @@
 import base64
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 
 from sorl.thumbnail import get_thumbnail
@@ -54,10 +55,10 @@ class PlayerSerializer(serializers.ModelSerializer):
     icon = B64ImageField(write_only=True, required=False)
     icon_filename = serializers.CharField(write_only=True, required=False)
 
+    rating_primary = LatestRatingField(key=settings.PRIMARY_RATING_KEY)
     rating_white = LatestRatingField(key=OVERALL_WHITE)
     rating_black = LatestRatingField(key=OVERALL_BLACK)
     rating_overall = LatestRatingField(key=OVERALL_OVERALL)
-
     rating_batman = LatestRatingField(key=EXPERIMENTAL_BATMAN)
 
     def validate(self, data):
@@ -93,6 +94,7 @@ class PlayerSerializer(serializers.ModelSerializer):
             'icon_url',
             'is_active',
             'total_games',
+            'rating_primary',
             'rating_overall',
             'rating_white',
             'rating_black',
