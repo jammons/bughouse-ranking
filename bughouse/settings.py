@@ -216,6 +216,10 @@ ELO_RATING_ENGINES = (
     'bughouse.ratings.engines.batman.BatmanRatings',
 )
 
+PRIMARY_RATING_KEY = excavator.env_string(
+    'PRIMARY_RATING_KEY', default='experimental:batman',
+)
+
 # ELO constants
 ELO_K = 4.0
 ELO_WIN_TEAM = 50.0 / ELO_K

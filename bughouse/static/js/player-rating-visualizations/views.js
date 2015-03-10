@@ -104,12 +104,9 @@ $(function(){
             };
         },
         getYBounds: function(lineData) {
-            if ( _.isUndefined(lineData) ) {
-                lineData = this.getRatingsData();
-            }
             return {
-                yMin: d3.min(lineData, function(d) { return d.y; }),
-                yMax: d3.max(lineData, function(d) { return d.y; })
+                yMin: 790,
+                yMax: 1350
             };
         },
         renderRatings: function() {
@@ -208,13 +205,10 @@ $(function(){
             }
         },
         getYBounds: function() {
-            var childBounds = this.getSelectedChildren().map(function(child) {
-                return child.getYBounds();
-            });
             return {
-                yMin: d3.min(childBounds, function(b) {return b.yMin;}) || 900,
-                yMax: d3.max(childBounds, function(b) {return b.yMax;}) || 1100,
-            }
+                yMin: 790,
+                yMax: 1350
+            };
         },
         renderAxis: function() {
             // Clear the axis.
@@ -285,10 +279,10 @@ $(function(){
         },
         templateHelpers: function() {
             return {
+                isPrimaryselected: this.model.get("dataKey") === "experimental:batman",
                 isOverallSelected: this.model.get("dataKey") === "overall:overall",
                 isWhiteSelected: this.model.get("dataKey") === "overall:white",
                 isBlackSelected: this.model.get("dataKey") === "overall:black",
-                isBatmanSelected: this.model.get("dataKey") === "experimental:batman"
             }
         }
     });
