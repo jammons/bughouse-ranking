@@ -49,6 +49,14 @@ def test_new_player_icon_data_required_when_icon_present_during_creation():
     assert not serializer.is_valid()
 
 
+@pytest.mark.django_db
+def test_new_player_icon_required_during_creation():
+    serializer = PlayerSerializer(data={
+        'name': 'Yoav',
+    })
+    assert not serializer.is_valid()
+
+
 def test_new_player_icon_name_required_when_icon_present_during_update(factories):
     player = factories.PlayerFactory()
     serializer = PlayerSerializer(player, data={

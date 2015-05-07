@@ -52,8 +52,8 @@ class LatestRatingField(serializers.Field):
 
 class PlayerSerializer(serializers.ModelSerializer):
     icon_url = PlayerIconField(dimensions="200x200", source="icon")
-    icon = B64ImageField(write_only=True, required=False)
-    icon_filename = serializers.CharField(write_only=True, required=False)
+    icon = B64ImageField(write_only=True, required=True)
+    icon_filename = serializers.CharField(write_only=True)
 
     rating_primary = LatestRatingField(key=settings.PRIMARY_RATING_KEY)
     rating_white = LatestRatingField(key=OVERALL_WHITE)
@@ -102,6 +102,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         )
 
     def save(self, *args, **kwargs):
+        self.is_valid()
         icon_filename = self.validated_data.pop("icon_filename", None)
         icon = self.validated_data.pop('icon', None)
         player = super(PlayerSerializer, self).save(*args, **kwargs)
