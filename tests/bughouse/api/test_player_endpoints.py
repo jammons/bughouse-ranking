@@ -11,10 +11,11 @@ from bughouse.models import Player
 def test_player_creation():
     client = APIClient()
     url = reverse('v1:player-list')
-    response = client.post(url, {'name': 'jeff'}, format='json')
+    client.post(url, {'name': 'jeff'}, format='json')
 
     # Should fail without an image
     assert Player.objects.filter(name='jeff').count() == 0
+
 
 @pytest.mark.django_db
 def test_player_name_update(factories):
