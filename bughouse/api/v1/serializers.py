@@ -84,6 +84,16 @@ class PlayerSerializer(serializers.ModelSerializer):
             )
         return value
 
+    def validate_image_for_player_create(self, icon_filename, icon):
+        if not icon_filename:
+            raise serializers.ValidationError(
+                "`icon_filename` is required for player creation"
+            )
+        if not icon:
+            raise serializers.ValidationError(
+                "`icon` is required for player creation"
+            )
+
     class Meta:
         model = Player
         fields = (
@@ -104,6 +114,8 @@ class PlayerSerializer(serializers.ModelSerializer):
     def save(self, *args, **kwargs):
         icon_filename = self.validated_data.pop("icon_filename", None)
         icon = self.validated_data.pop('icon', None)
+        if not self.instance:
+            self.validate_image_for_player_create(icon_filename, icon)
         player = super(PlayerSerializer, self).save(*args, **kwargs)
         if icon_filename and icon:
             player.icon.save(
